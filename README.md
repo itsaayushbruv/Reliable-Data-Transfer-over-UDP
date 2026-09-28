@@ -8,3 +8,4 @@ Order of completion :-
 First Commit -> Trying socket programming in python by sending a simple msg from one laptop to another  
 Second Commit -> Added Packet.py without checksum  
 Third Commit -> Added checksum.py and integrated checksum in packet.py. Used crc32 from zlib for checksum calculation.  
+Fourth Commit -> Added Jacobson's Algorithm for RTT and timeout calculation
