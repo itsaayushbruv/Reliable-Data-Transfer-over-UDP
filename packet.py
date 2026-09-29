@@ -1,5 +1,4 @@
 import struct
-import zlib
 
 from checksum import checksum as chk, verify as vfy
 
