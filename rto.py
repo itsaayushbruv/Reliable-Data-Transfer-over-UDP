@@ -25,8 +25,8 @@ import time
 class JacobsonRTTWithKarnsModification:
 
     # Initialization
-    def __init__(self, aplha=0.875, initial_tot=1.0, min_tot=0.2, max_tot=5.0):
-        self.aplha = aplha
+    def __init__(self, alpha=0.875, initial_tot=1.0, min_tot=0.2, max_tot=5.0):
+        self.alpha = alpha
         self.prtt = None
         self.pd = None
         self.tot = initial_tot
@@ -39,8 +39,8 @@ class JacobsonRTTWithKarnsModification:
             self.pd = artt/2
         else:
             ad = abs(self.prtt - artt)
-            self.prtt = self.aplha*self.prtt + (1-self.aplha)*artt
-            self.pd = self.aplha*self.pd + (1-self.aplha)*ad
+            self.prtt = self.alpha*self.prtt + (1-self.alpha)*artt
+            self.pd = self.alpha*self.pd + (1-self.alpha)*ad
         
         self.tot = 4*self.pd + self.prtt
         self.tot = max(self.min_tot, min(self.tot,self.max_tot))
