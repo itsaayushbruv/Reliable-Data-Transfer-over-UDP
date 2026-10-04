@@ -5,6 +5,9 @@ from rto import JacobsonRTTWithKarnsModification
 
 
 """
+We have separated the codes in 2 classes so that we can call one as per need and 
+we don't have to write the sender and receiver code in 2 different files.
+
 Sender cover from here
 """
 class StopAndWaitSender:
@@ -85,7 +88,7 @@ class StopAndWaitSender:
                         else:
                             print(
                                 f"ACK {ack} received after "
-                                 "retransmission"
+                                f"retransmission"
                             )
 
                         self.seq += 1
@@ -173,10 +176,149 @@ class StopAndWaitSender:
 
                 print(
                     f"FIN timeout for seq={self.seq}. "
-                     "Retransmitting FIN..."
+                    f"Retransmitting FIN..."
                 )
 
                 self.rto.timeout()
 
                 self.retransmissions += 1
 
+
+
+"""
+Receiver cover from here
+"""
+class StopAndWaitReceiver:
+
+    def __init__(self, sock):
+        self.sock = sock
+
+        # First packet expected
+        self.expected_seq = 0
+
+        # Last ACK sent
+        self.last_ack = None
+
+        self.packets_received = 0
+
+    def receive_file(self, output_filename):
+        with open(output_filename, "wb") as file:
+
+            while True:
+
+                raw, sender_address = self.sock.recvfrom(65535)
+
+                result = parse_packet(raw)
+
+                if result is None:
+                    print("Invalid/corrupted packet ignored.")
+                    continue
+
+                ptype, seq, ack, payload = result
+
+                if ptype == DATA:
+
+                    if seq == self.expected_seq:
+
+                        file.write(payload)
+
+                        self.packets_received += 1
+
+                        print(
+                            f"Received DATA seq={seq}"
+                        )
+
+                        ack_packet = make_packet(
+                            ACK,
+                            ack=seq
+                        )
+
+                        self.sock.sendto(
+                            ack_packet,
+                            sender_address
+                        )
+
+                        self.last_ack = seq
+                        self.expected_seq += 1
+
+                    else:
+
+                        print(
+                            f"Duplicate DATA seq={seq} "
+                            f"(expected {self.expected_seq})"
+                        )
+
+                        if self.last_ack is not None:
+
+                            ack_packet = make_packet(
+                                ACK,
+                                ack=self.last_ack
+                            )
+
+                            self.sock.sendto(
+                                ack_packet,
+                                sender_address
+                            )
+
+                elif ptype == FIN:
+
+                    if seq == self.expected_seq:
+
+                        print("FIN received.")
+
+                        ack_packet = make_packet(
+                            ACK,
+                            ack=seq
+                        )
+
+                        self.sock.sendto(
+                            ack_packet,
+                            sender_address
+                        )
+
+                        self.linger_for_fin(
+                            sender_address,
+                            seq
+                        )
+
+                        return
+    
+
+    def linger_for_fin(self, sender_address, fin_seq):
+        self.sock.settimeout(2.0)
+
+        try:
+
+            while True:
+
+                raw, address = self.sock.recvfrom(65535)
+
+                if address != sender_address:
+                    continue
+
+                result = parse_packet(raw)
+
+                if result is None:
+                    continue
+
+                ptype, seq, ack, payload = result
+
+                if ptype == FIN and seq == fin_seq:
+
+                    print("Duplicate FIN received. Sending ACK again.")
+
+                    ack_packet = make_packet(
+                        ACK,
+                        ack=fin_seq
+                    )
+
+                    self.sock.sendto(
+                        ack_packet,
+                        sender_address
+                    )
+
+        except socket.timeout:
+            pass
+
+        finally:
+            self.sock.settimeout(None)
