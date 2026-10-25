@@ -1,4 +1,5 @@
 import time
+import os
 
 """
     Jacobson RTT estimation + Karn's algorithm.
@@ -26,6 +27,20 @@ class JacobsonRTTWithKarnsModification:
 
     # Initialization
     def __init__(self, alpha=0.875, initial_tot=1.0, min_tot=0.2, max_tot=5.0):
+        # Optional environment overrides let the experiment runner test RTO
+        # settings without changing the defaults used by ordinary runs.
+        alpha = float(os.getenv("UDP_RTO_ALPHA", alpha))
+        initial_tot = float(os.getenv("UDP_RTO_INITIAL", initial_tot))
+        min_tot = float(os.getenv("UDP_RTO_MIN", min_tot))
+        max_tot = float(os.getenv("UDP_RTO_MAX", max_tot))
+
+        if not 0.0 < alpha < 1.0:
+            raise ValueError("alpha must be between 0 and 1")
+        if min_tot <= 0 or max_tot < min_tot:
+            raise ValueError("RTO limits must satisfy 0 < min_tot <= max_tot")
+        if not min_tot <= initial_tot <= max_tot:
+            raise ValueError("initial_tot must be between min_tot and max_tot")
+
         self.alpha = alpha
         self.prtt = None
         self.pd = None
@@ -67,6 +82,6 @@ class JacobsonRTTWithKarnsModification:
             f"TOT = {self.tot:.3f}s"
         )
 
-    def now():
+    def now(self):
         return time.monotonic()
     
