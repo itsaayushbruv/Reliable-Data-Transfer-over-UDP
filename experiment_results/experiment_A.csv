@@ -1,0 +1,7 @@
+experiment,protocol,loss_rate,window_size,reordering_probability,rto_label,rto_initial_s,rto_min_s,rto_max_s,random_seed,input_bytes,elapsed_s,goodput_bps,data_transmissions,data_retransmissions,fin_transmissions,fin_retransmissions,channel_packets_observed,channel_packets_dropped,channel_packets_corrupted,channel_duplicate_copies,channel_packets_selected_for_reordering,channel_packets_forwarded,sender_exit_code,receiver_exit_code,hash_match,success,error
+A,stop_wait,0.0,4,0.0,,1.0,0.2,5.0,42,31893,0.224814,1134911.022,32,0,1,0,,,,,,,0,0,True,True,
+A,gbn,0.0,4,0.0,,1.0,0.2,5.0,42,31893,0.194461,1312059.454,32,0,1,0,,,,,,,0,0,True,True,
+A,sr,0.0,4,0.0,,1.0,0.2,5.0,42,31893,0.210334,1213043.267,32,0,1,0,,,,,,,0,0,True,True,
+A,stop_wait,0.1,4,0.0,,1.0,0.2,5.0,42,31893,2.131768,119686.542,39,7,2,1,,,,,,,0,0,True,True,
+A,gbn,0.1,4,0.0,,1.0,0.2,5.0,42,31893,2.425747,105181.642,56,24,1,0,,,,,,,0,0,True,True,
+A,sr,0.1,4,0.0,,1.0,0.2,5.0,42,31893,2.826579,90266.013,39,7,1,0,,,,,,,0,0,True,True,

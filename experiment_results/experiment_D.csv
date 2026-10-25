@@ -1,0 +1,10 @@
+experiment,protocol,loss_rate,window_size,reordering_probability,rto_label,rto_initial_s,rto_min_s,rto_max_s,random_seed,input_bytes,elapsed_s,goodput_bps,data_transmissions,data_retransmissions,fin_transmissions,fin_retransmissions,channel_packets_observed,channel_packets_dropped,channel_packets_corrupted,channel_duplicate_copies,channel_packets_selected_for_reordering,channel_packets_forwarded,sender_exit_code,receiver_exit_code,hash_match,success,error
+D,stop_wait,0.1,4,0.0,aggressive,0.2,0.05,2.0,42,31893,1.188527,214672.429,39,7,2,1,80,8,0,0,0,72,0,0,True,True,
+D,gbn,0.1,4,0.0,aggressive,0.2,0.05,2.0,42,31893,0.938785,271781.05,49,17,1,0,95,9,0,0,0,86,0,0,True,True,
+D,sr,0.1,4,0.0,aggressive,0.2,0.05,2.0,42,31893,0.928848,274688.528,39,7,1,0,75,7,0,0,0,68,0,0,True,True,
+D,stop_wait,0.1,4,0.0,default,1.0,0.2,5.0,42,31893,2.32373,109799.345,39,7,2,1,80,8,0,0,0,72,0,0,True,True,
+D,gbn,0.1,4,0.0,default,1.0,0.2,5.0,42,31893,1.69243,150755.978,49,17,1,0,95,9,0,0,0,86,0,0,True,True,
+D,sr,0.1,4,0.0,default,1.0,0.2,5.0,42,31893,2.897519,88056.032,39,7,1,0,75,7,0,0,0,68,0,0,True,True,
+D,stop_wait,0.1,4,0.0,conservative,2.0,0.5,5.0,42,31893,5.038315,50640.741,39,7,2,1,80,8,0,0,0,72,0,0,True,True,
+D,gbn,0.1,4,0.0,conservative,2.0,0.5,5.0,42,31893,3.556572,71738.75,49,17,1,0,95,9,0,0,0,86,0,0,True,True,
+D,sr,0.1,4,0.0,conservative,2.0,0.5,5.0,42,31893,6.396375,39888.842,39,7,1,0,75,7,0,0,0,68,0,0,True,True,
