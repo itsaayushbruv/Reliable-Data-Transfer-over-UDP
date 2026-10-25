@@ -22,8 +22,10 @@ class StopAndWaitSender:
         # 1st seq no
         self.seq = 0
 
-        self.retransmissions = 0
-        self.packets_sent = 0
+        self.retransmissions = 0  # DATA retransmissions only
+        self.packets_sent = 0     # DATA transmissions only
+        self.fin_transmissions = 0
+        self.fin_retransmissions = 0
 
     def send_packet(self, payload):
         packet = make_packet(
@@ -143,6 +145,7 @@ class StopAndWaitSender:
                 fin_packet,
                 self.receiver_address
             )
+            self.fin_transmissions += 1
 
             self.sock.settimeout(
                 self.rto.getTimeout()
@@ -181,7 +184,7 @@ class StopAndWaitSender:
 
                 self.rto.timeout()
 
-                self.retransmissions += 1
+                self.fin_retransmissions += 1
 
 
 
