@@ -26,8 +26,8 @@ def parse_packet(raw):
     if length != len(payload):
         return None
 
-    test_header = HEADER.pack(ptype, seq, ack, length, 0)
-    data = test_header + payload
+    header_without_checksum = HEADER.pack(ptype, seq, ack, length, 0)
+    data = header_without_checksum+ payload
     verify = vfy(data,checksum)
 
     if not verify:

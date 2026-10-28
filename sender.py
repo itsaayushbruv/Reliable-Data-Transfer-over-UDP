@@ -7,7 +7,7 @@ from sr import SelectiveRepeatSender
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Reliable UDP file sender")
+    parser = argparse.ArgumentParser()
     parser.add_argument("input_file")
     parser.add_argument(
         "--protocol",

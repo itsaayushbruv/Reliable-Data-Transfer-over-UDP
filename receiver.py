@@ -7,7 +7,7 @@ from sr import SelectiveRepeatReceiver
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Reliable UDP file receiver")
+    parser = argparse.ArgumentParser()
     parser.add_argument(
         "--protocol",
         choices=["stop_wait", "gbn", "sr"],
@@ -19,7 +19,6 @@ def main():
         "--linger",
         type=float,
         default=6.0,
-        help="Post-FIN wait in seconds",
     )
     args = parser.parse_args()
 
