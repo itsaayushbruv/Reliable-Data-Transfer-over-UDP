@@ -88,10 +88,7 @@ class StopAndWaitSender:
                             )
 
                         else:
-                            print(
-                                f"ACK {ack} received after "
-                                f"retransmission"
-                            )
+                            print(f"ACK {ack} received after retransmission")
 
                         self.seq += 1
 
